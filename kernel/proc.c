@@ -681,3 +681,21 @@ procdump(void)
     printf("\n");
   }
 }
+
+
+// Look in the process table for an UNUSED proc.
+// If found, initialize state required to run in the kernel,
+// and return with p->lock held.
+// If there are no free procs, or a memory allocation fails, return 0.
+int
+numprocs(void)
+{
+  int numprocs = 0;
+  struct proc *p;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    if(p->state != UNUSED)
+      numprocs++;
+  }
+  return numprocs;
+}
