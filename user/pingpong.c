@@ -12,12 +12,13 @@ int main(int argc, char *argv[])
     if(pid > 0){
         
         read(p1[0], &buf, 1);
-        printf("%d: recieved ping\n", pid);
+        printf("%d: received ping\n", pid);
         write(p2[1], "a", 1);
     } else if(pid == 0){
         write(p1[1], "a", 1);
         read(p2[0], &buf, 1);
-        printf("%d: recieved pong\n", pid);
+        sleep(1);
+        printf("%d: received pong\n", pid);
     } else {
         printf("fork error\n");
     }

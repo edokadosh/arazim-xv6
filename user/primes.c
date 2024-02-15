@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
             printf("fork error\n");
         }
     } else if(pid == 0){
-        for (int i = 2 ; i <= 35 ; i++) {
+        for (int i = 2 ; i <= 50 ; i++) {
             buf = (char)i;
             write(p2[1], &buf, 1);
         }
