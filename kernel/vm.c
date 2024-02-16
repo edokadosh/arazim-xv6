@@ -467,4 +467,3 @@ vmprint(pagetable_t pagetable)
   
   vmprintwalk(pagetable, 0);
 }
-

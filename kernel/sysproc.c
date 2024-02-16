@@ -74,7 +74,34 @@ sys_sleep(void)
 int
 sys_pgaccess(void)
 {
-  // lab pgtbl: your code here.
+  uint64 userpage;
+  int numpages;
+  uint64 mask;
+  argaddr(0, &userpage);
+  argint(1, &numpages);
+  argaddr(2, &mask);
+
+  pagetable_t pgtbl = myproc()->pagetable;
+  pte_t* pte;
+  uint64 res = 0;
+
+  if (numpages==0){
+    return 0;
+  }
+
+  for (int i = 0; i<numpages ; i++){
+    pte = walk(pgtbl, (userpage+PGSIZE*i), 0);
+    if (pte==0){
+      printf("invalid page\n");
+      continue;
+    }
+    if (*pte & PTE_A){
+      res |= (1L << i);
+      *pte &= (~PTE_A);
+    }
+  }
+  if(copyout(pgtbl, mask, (char *)&res, sizeof(res)) < 0)
+    return -1;
   return 0;
 }
 #endif
